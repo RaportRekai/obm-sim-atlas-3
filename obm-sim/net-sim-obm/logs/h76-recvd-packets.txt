@@ -1,0 +1,20 @@
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 1, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 2, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 3, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 4, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 5, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 6, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 7, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 8, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 9, ackFlag: 1, ecnFlag: 1, route: 
+
+src: h144, dst: h76, sport: 86, dport: 86, seqNum: 0, ackNum: 10, ackFlag: 1, ecnFlag: 1, route: 
+
