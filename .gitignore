@@ -1,0 +1,6 @@
+logs/
+/obm-sim/net-sim-abm/reordering_abm_per_flow.txt
+/obm-sim/net-sim-dt/reordering_dt_per_flow.txt
+__pycache__/
+/obm-sim/net-sim-obm/reordering_lqd_per_flow.txt
+/obm-sim/net-sim-obm/reordering_obm_per_flow.txt
