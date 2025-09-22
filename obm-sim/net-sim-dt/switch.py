@@ -21,7 +21,7 @@ class Switch():
                           # each virtual output queue is a FIFO queue of infinite size
         self.voq_rr = {}  # stores the VOQ per port to be serviced next
         self.per_port_max_qsize = 5  # in terms of number of size in Bytes
-        self.K = 25                   # threshold for ECN marking (in terms of number of packets)
+        self.K = 30                   # threshold for ECN marking (in terms of number of packets)
 
         self.num_tor_ports = num_tor_ports
         self.num_agg_ports = num_agg_ports
@@ -52,7 +52,7 @@ class Switch():
         self.final_add = [0 for i in range(self.N)]
         self.T = [self.total_buffer_size/(self.ports*self.priority_classes) for i in range(self.priority_classes)]
         self.sent = 0
-        self.alpha = [0.8,0.6,0.4]#[8,2,1]
+        self.alpha = [8,6,4]#[8,2,1]
         self.t = 0
         self.track = 0
 

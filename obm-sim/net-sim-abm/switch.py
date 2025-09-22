@@ -53,13 +53,13 @@ class Switch():
         self.final_add = [0 for i in range(self.N)]
         self.T = [[self.total_buffer_size/(self.ports*self.priority_classes) for _ in range(self.priority_classes)] for i in range(self.ports)]
         self.sent = 0
-        self.alpha = [2,1,0.5]
+        self.alpha = [8,4,2]#[2,1,0.5]
         self.t = 0
         self.t_track = 0
         self.np = [0]*self.priority_classes
         self.bwu = [[0 for i in range(self.priority_classes)] for _ in range(self.ports)]
         self.nqa = [[1 for i in range(self.priority_classes)] for _ in range(self.ports)]
-        self.K = 25
+        self.K = 30
     def runSwitch(self, currTimeslot):
         """Main loop of switch"""
         self.t+=1
@@ -136,7 +136,7 @@ class Switch():
 
     def threshold_calculate(self): # Threshold calculation for ABM - takes alpha into total alpha calculation only if the queue size is > 0 
         self.np = [0]*self.priority_classes
-        
+        #self.nqa = 1/3
         for n2 in range(self.priority_classes):
             for n1 in range(self.ports):
                 if self.voq_port_qsize[n1][n2] >= 0.9*self.T[n1][n2]:
@@ -168,9 +168,9 @@ class Switch():
 
             for n2 in range(self.priority_classes):
                 if self.np[n2]==0:
-                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(self.nqa[n1][n2])
+                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(1/3)#(self.nqa[n1][n2])
                 else:
-                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(self.nqa[n1][n2])*(1/self.np[n2])
+                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(1/3)*(1/self.np[n2])#(self.nqa[n1][n2])*(1/self.np[n2])
                 
         
         

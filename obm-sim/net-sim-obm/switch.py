@@ -61,7 +61,7 @@ class Switch():
         self.buffer = [[-1,-1] for i in range(self.N)]
         self.priority_packet_count = [0,0,0]
         self.priority_max_q_l = 0
-        self.K = 25
+        self.K = 30
         
 
 
@@ -106,7 +106,7 @@ class Switch():
                 else:
                     continue
         self.k = 0
-        self.buffer = [[-1,-1] for i in range(self.N)]
+        
         self.largest_index = max(self.port_qsize, key=self.port_qsize.get)
         #print(f"The largest q is {self.largest_index}")
         #print(f"port qsize = {self.port_qsize}")
@@ -116,6 +116,10 @@ class Switch():
             packet = self.links[port].recv(self.addr, currTimeslot)
             if packet:
                 self.handleRecvdPacket(port, packet, currTimeslot)
+        
+        for b in self.buffer:
+            if b[1] != -1:
+                self.k+=1
         
         # for different priority classes coming into picture the conditions for priority encoder check becomes a little different
         if self.k>0:
@@ -173,12 +177,14 @@ class Switch():
         return index_of_largest
 
     def priority_encoder(self,longest_ind,k):
-        for p_index in range(self.priority_classes-1):
+        for p_index in range(self.priority_classes):
             
-            if self.voq_port_qsize[longest_ind-1][self.priority_classes-1-p_index]>k:
+            if self.voq_port_qsize[longest_ind-1][self.priority_classes-1-p_index]>0:
+                if self.priority_classes -1 - p_index == 0:
+                    breakpoint()
                 return self.priority_classes-1-p_index
             
-        for p_index in range(self.priority_classes-1):
+        for p_index in range(self.priority_classes):
             
             if self.voq_port_qsize[longest_ind-1][self.priority_classes-1-p_index]>=1:
                 #print(f"got {k} locations")
@@ -237,6 +243,7 @@ class Switch():
                 self.port_qsize[i[1]] += 1
                 self.setECNFlag(i[0], i[1])
                 self.voq_port_qsize[i[1]-1][i[0].priority-1]+=1
+                self.buffer[ind] = [-1,-1]
             if trk == space:
                 break
         
@@ -250,7 +257,7 @@ class Switch():
         outPort = self.getOutPort(self.addr, packet)  # output port the packet needs to be sent out on
         
 ################################################################################ BIT MAPPER ########################################################################################
-        if self.total_buffer_size > self.total_usage:
+        if self.total_buffer_size > self.total_usage and self.buffer[inPort-1][1] == -1:
 
             self.total_usage +=1
             self.queues[outPort][packet.priority-1].put(packet)
@@ -264,7 +271,31 @@ class Switch():
             #print(f"Packet placed = {self.addr} at {outPort-1} {inPort-1} at time {self.t}")
             #print(f"port qsize = {self.port_qsize}")
         #print("Packets scheduled via final add")
-        else:
+        elif self.buffer[inPort-1][1] != -1 and self.total_buffer_size > self.total_usage:
+            if packet.priority < self.buffer[inPort-1][0].priority:
+                self.buffer[inPort -1] = [packet,outPort]
+            self.total_usage +=1
+            self.queues[self.buffer[inPort-1][1]][self.buffer[inPort-1][0].priority-1].put(self.buffer[inPort-1][0])
+            self.port_qsize[self.buffer[inPort-1][1]] += 1
+            self.voq_port_qsize[self.buffer[inPort-1][1]-1][self.buffer[inPort-1][0].priority-1]+=1
+            self.buffer[inPort-1] = [-1,-1]
+        
+        elif self.buffer[inPort-1][1] != -1:
+            enter = 0
+            if outPort == self.largest_index:
+                for p in range(3,packet.priority,-1):
+                    if self.voq_port_qsize[outPort-1][p - 1]>0:
+                        enter = 1
+                        #breakpoint()
+            
+            if packet.priority < self.buffer[inPort-1][0].priority and enter == 1:
+                self.buffer[inPort -1] = [packet,outPort]
+            
+            elif packet.priority == 1:
+                print("strt drop")
+
+
+        elif self.buffer[inPort-1][1] == -1:
             
             enter = 0
             if outPort == self.largest_index:
@@ -273,9 +304,9 @@ class Switch():
                         enter = 1
                         #breakpoint()
                     
-            if outPort != (self.largest_index) :#or (enter == 1):
+            if outPort != (self.largest_index) or (enter == 1):
                 self.buffer[inPort-1] = [packet,outPort]
-                self.k +=1   
+                #self.k +=1   
                 #breakpoint()
                 #print("Initiated LQD")    
             else:
@@ -284,6 +315,7 @@ class Switch():
                     
             #     if packet.dstAddr == 'h29':
             #         #breakpoint()
+            
 
 
         

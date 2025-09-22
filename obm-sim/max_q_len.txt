@@ -530,3 +530,14 @@ workloads/incast-trace-100G-degree-0.2.csv.processed
 workloads/incast-trace-100G-degree-0.4.csv.processed
 workloads/incast-trace-100G-degree-0.6.csv.processed
 workloads/incast-trace-100G-degree-0.8.csv.processed
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.6.csv.processed
+workloads/websearch-trace-100G-load-0.9.csv.processed
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.6.csv.processed
+workloads/websearch-trace-100G-load-0.9.csv.processed
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.6.csv.processed
+workloads/websearch-trace-100G-load-0.9.csv.processed

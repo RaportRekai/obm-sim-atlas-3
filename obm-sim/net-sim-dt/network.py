@@ -134,7 +134,7 @@ class Network:
                     self.hosts[src].priority[(dst,sport,dport)] = 2
                 self.hosts[dst].rFlows[(src,sport,dport)] = [Id, flowsize, 0, startTimeslot, 0, 0]
                 self.hosts[src].rrSched.append((dst,sport,dport))
-                self.hosts[src].cwnd[(dst,sport,dport)] = 20
+                self.hosts[src].cwnd[(dst,sport,dport)] = 50
                 self.hosts[src].alpha[(dst,sport,dport)] = 0
                 self.hosts[src].numPktSentInCurrWin[(dst,sport,dport)] = 0
                 line = f.readline()
