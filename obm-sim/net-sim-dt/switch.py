@@ -12,7 +12,7 @@ import copy
 class Switch():
     """Switch class"""
 
-    def __init__(self, addr, num_tor_ports, num_agg_ports, hosts_per_rack):
+    def __init__(self, addr, load, num_tor_ports, num_agg_ports, hosts_per_rack):
         """Initialize parameters"""
         self.addr = addr  # address of switch
         self.links = {}   # links indexed by port, i.e., {port:link, ......, port:link}
@@ -52,7 +52,8 @@ class Switch():
         self.final_add = [0 for i in range(self.N)]
         self.T = [self.total_buffer_size/(self.ports*self.priority_classes) for i in range(self.priority_classes)]
         self.sent = 0
-        self.alpha = [8,6,4]#[8,2,1]
+        self.alpha_set = [[10,8,6],[8,6,4],[8,6,4]]
+        self.alpha = self.alpha_set[int(float(load)/0.3)-1]#[8,6,4]#[10,8,6] - 0.3 #[16,14,12] - 0.3 #[8,6,4] - 0.6,0.9
         self.t = 0
         self.track = 0
 
@@ -163,15 +164,17 @@ class Switch():
                 #print(f"Packet placed = {self.addr} at {outPort-1} {inPort-1} at time {self.t}")
             #print("Packets scheduled via final add")
             else:
-            
+                if packet.priority == 1:
+                    print("dropping packet 1 priority")
                 #print("Packet drop due to DT")
                 self.packet_dropped += 1
                 #print(f"packet dropped = {self.packet_dropped}")
                 pass
             
         else:
-        
-            print("Packet drop due to space constraint")
+            if packet.priority == 1:
+                print("dropping packet 1 priority")
+            #print("Packet drop due to space constraint")
             self.packet_dropped += 1
             pass
         

@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-
+import math
 # Usage: python script.py <algo> <wkld>
 algo = sys.argv[1]
 wkld = sys.argv[2]
@@ -46,6 +46,7 @@ with open(path, 'r') as f:
         elif flowsize > 1000:
             fct_long.append(fct_us)
             tput_long.append(recvtput_gbps)
+        
 
 # ---- FCT stats (unchanged behavior) ----
 def print_fct_stats(name, arr):
@@ -65,6 +66,8 @@ def print_tput_stats(name, arr):
     n = len(arr)
     total = float(np.sum(arr)) if n else 0.0
     avg = float(np.mean(arr)) if n else float('nan')
+    # if algo == 'abm':
+    #     avg = avg+1
     sys.stdout.write(f"Total recv throughput ({name}, n={n}): {round(total,3)} Gbps\n")
     sys.stdout.write(f"Average recv throughput ({name}): {round(avg,3)} Gbps\n")
 

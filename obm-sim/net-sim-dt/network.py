@@ -40,7 +40,7 @@ class Network:
         """Parse switches from switchParams dict"""
         switches = {}
         for addr in switchParams:
-            switches[addr] = Switch(addr, self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack)
+            switches[addr] = Switch(addr, sys.argv[3], self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack)
         return switches
 
 
@@ -154,7 +154,7 @@ class Network:
                 startTimeslot = int(tokens[6].strip())
 
             for h in self.hosts:
-                counts_delta, events = self.hosts[h].runHost(currTimeslot, flowLogFile, ackQueues, totalPktSent, totalPktRecvd, totalFlowsFinished)
+                counts_delta, events = self.hosts[h].runHost(currTimeslot, flowLogFile, ackQueues, totalPktSent, totalPktRecvd, totalFlowsFinished, sys.argv[3])
                 self.reordering_pairs[h] = {fk: list(v) for fk, v in events.items()}
             for s in self.switches:
                 self.switches[s].runSwitch(currTimeslot)

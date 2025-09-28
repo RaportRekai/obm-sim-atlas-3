@@ -13,7 +13,7 @@ MAX_K = 100
 class Switch():
     """Switch class"""
 
-    def __init__(self, addr, num_tor_ports, num_agg_ports, hosts_per_rack):
+    def __init__(self, load, addr, num_tor_ports, num_agg_ports, hosts_per_rack):
         """Initialize parameters"""
         self.addr = addr  # address of switch
         self.links = {}   # links indexed by port, i.e., {port:link, ......, port:link}
@@ -53,7 +53,8 @@ class Switch():
         self.final_add = [0 for i in range(self.N)]
         self.T = [[self.total_buffer_size/(self.ports*self.priority_classes) for _ in range(self.priority_classes)] for i in range(self.ports)]
         self.sent = 0
-        self.alpha = [8,4,2]#[2,1,0.5]
+        self.alpha_set = [[18,16,12],[10,8,6],[18,14,10]]
+        self.alpha = self.alpha_set[int(float(load)/0.3)-1]#[18,16,12] #[18,16,14] - 0.3 #[18,14,10] - 0.9 #[18,14,12] #[10,8,6] - 0.6 #[2,1,0.5]
         self.t = 0
         self.t_track = 0
         self.np = [0]*self.priority_classes
@@ -168,9 +169,9 @@ class Switch():
 
             for n2 in range(self.priority_classes):
                 if self.np[n2]==0:
-                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(1/3)#(self.nqa[n1][n2])
+                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(self.nqa[n1][n2])
                 else:
-                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(1/3)*(1/self.np[n2])#(self.nqa[n1][n2])*(1/self.np[n2])
+                    self.T[n1][n2]= self.alpha[n2]*(self.total_buffer_size - self.total_usage)*(1/self.np[n2])*(self.nqa[n1][n2])
                 
         
         
@@ -209,23 +210,17 @@ class Switch():
                 
                 self.final_add[inPort-1] = 0
                 self.packet_dropped += 1
-                msg = f"switch {self.addr} - abm drop - {self.packet_dropped} \n"
-                #print(f"voq length = {[self.voq_port_qsize[c][0] for c in range(0,self.N)]}")
-                with open("/home/dan/LQD/obm-sim/obm-sim/drop_stats_abm.txt", "a") as f:
-                    f.write(msg)
-                with open("/home/dan/LQD/obm-sim/obm-sim/short_flow_completion_time_abm.txt", "a") as f:
-                    f.write(f"dropped packet - {packet.dstAddr,packet.srcPort,packet.dstPort} - from switch - {self.addr} \n")
-                pass
+                if packet.priority == 1:
+                    print("dropping priority 1 packets")
+
             
         else:
             self.final_add[inPort-1] = 0
             #print("Packet drop due to space constraint")
             #breakpoint()
             self.packet_dropped += 1
-            msg = f"switch {self.addr} - space constrain drop - {self.packet_dropped} \n"
-            with open("/home/dan/LQD/obm-sim/obm-sim/drop_stats_abm.txt", "a") as f:
-                f.write(msg)
-            pass
+            if packet.priority == 1:
+                print("dropping priority 1 packets")
         
     
         self.threshold_calculate()

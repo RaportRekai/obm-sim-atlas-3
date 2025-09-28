@@ -180,8 +180,8 @@ class Switch():
         for p_index in range(self.priority_classes):
             
             if self.voq_port_qsize[longest_ind-1][self.priority_classes-1-p_index]>0:
-                if self.priority_classes -1 - p_index == 0:
-                    breakpoint()
+                #if self.priority_classes -1 - p_index == 0:
+                    #breakpoint()
                 return self.priority_classes-1-p_index
             
         for p_index in range(self.priority_classes):
