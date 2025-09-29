@@ -53,14 +53,14 @@ class Switch():
         self.final_add = [0 for i in range(self.N)]
         self.T = [[self.total_buffer_size/(self.ports*self.priority_classes) for _ in range(self.priority_classes)] for i in range(self.ports)]
         self.sent = 0
-        self.alpha_set = [[18,16,12],[10,8,6],[18,14,10]]
-        self.alpha = self.alpha_set[int(float(load)/0.3)-1]#[18,16,12] #[18,16,14] - 0.3 #[18,14,10] - 0.9 #[18,14,12] #[10,8,6] - 0.6 #[2,1,0.5]
+        self.alpha_set = [[7,1,5],[2,1,0.5]]#[[0.8,0.6,0.4],[10,8,6],[18,14,10]]
+        self.alpha = self.alpha_set[0] if load == "0.2" else self.alpha_set[1]#[18,16,12] #[18,16,14] - 0.3 #[18,14,10] - 0.9 #[18,14,12] #[10,8,6] - 0.6 #[2,1,0.5]
         self.t = 0
         self.t_track = 0
         self.np = [0]*self.priority_classes
         self.bwu = [[0 for i in range(self.priority_classes)] for _ in range(self.ports)]
         self.nqa = [[1 for i in range(self.priority_classes)] for _ in range(self.ports)]
-        self.K = 30
+        self.K = 25
     def runSwitch(self, currTimeslot):
         """Main loop of switch"""
         self.t+=1

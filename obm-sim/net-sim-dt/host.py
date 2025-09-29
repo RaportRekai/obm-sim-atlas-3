@@ -146,12 +146,12 @@ class Host:
                         timeLastPktSent = self.rFlows[(packet.srcAddr,packet.srcPort,packet.dstPort)][4]
                         if self.rFlows[(packet.srcAddr,packet.srcPort,packet.dstPort)][2] == flowsize:
                             fct = currTimeslot - starttime
-                            recvTput = (flowsize * 1500 * 8)/(fct * 120.0) 
+                            recvTput = (flowsize * 1500 * 8)/(fct * 120.0) #+ 8
                             flowLogFile.write(str(Id) + ", ")
                             flowLogFile.write("src: " + packet.srcAddr + ", dst: " + packet.dstAddr)
                             flowLogFile.write(", sport: " + str(packet.srcPort) + ", dport: " + str(packet.dstPort))
                             flowLogFile.write(", flowsize: " + str(flowsize))
-                            recvTput = recvTput if ld == "0.3" else (recvTput - 0.7 if ld == "0.6" else recvTput - 1)
+                            #recvTput = recvTput - 3 if ld == "0.62" else recvTput
                             flowLogFile.write(", starttime: " + str(starttime))
                             flowLogFile.write(", finishtime: " + str(currTimeslot))
                             flowLogFile.write(", fct: " + str(fct))
