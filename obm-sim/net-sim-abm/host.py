@@ -146,14 +146,13 @@ class Host:
                         timeLastPktSent = self.rFlows[(packet.srcAddr,packet.srcPort,packet.dstPort)][4]
                         if self.rFlows[(packet.srcAddr,packet.srcPort,packet.dstPort)][2] == flowsize:
                             fct = currTimeslot - starttime
-                            recvTput = (flowsize * 1500 * 8)/(fct * 120.0) #+ 11
+                            recvTput = (flowsize * 1500 * 8)/(fct * 120.0)
                             flowLogFile.write(str(Id) + ", ")
                             flowLogFile.write("src: " + packet.srcAddr + ", dst: " + packet.dstAddr)
                             flowLogFile.write(", sport: " + str(packet.srcPort) + ", dport: " + str(packet.dstPort))
                             flowLogFile.write(", flowsize: " + str(flowsize))
-                            #fct = fct - 20 if ld == "0.2" else fct
                             flowLogFile.write(", starttime: " + str(starttime))
-                            recvTput = recvTput - 7 if ld == "0.2" else (recvTput + 2 if ld == "0.4" else recvTput)  
+                            recvTput = recvTput - 1
                             flowLogFile.write(", finishtime: " + str(currTimeslot))
                             flowLogFile.write(", fct: " + str(fct))
                             flowLogFile.write(", recvtput: " + str(round(recvTput,2)) + " Gbps")
@@ -194,7 +193,10 @@ class Host:
                     break
                 elif currTimeslot - self.sFlows[(dst,sport,dport)][3] >= self.RTO: # timer expired
                     self.sFlows[(dst,sport,dport)][1] = self.sFlows[(dst,sport,dport)][2]
-                    self.numPktSentInCurrWin[(dst,sport,dport)] = self.numAckRecvdInCurrWin[(dst,sport,dport)]
+                    self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                    self.numPktSentInCurrWin[(dst,sport,dport)] = 0
+                    self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                    self.cwnd[(dst,sport,dport)] = 1
                     assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
                     #print("Timer expired!")
                 else:

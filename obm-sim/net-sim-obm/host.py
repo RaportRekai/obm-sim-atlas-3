@@ -8,7 +8,17 @@ from packet import Packet
 from dataclasses import dataclass
 from math import fabs
 from collections import defaultdict
+import signal
+import sys
+import pdb
 
+def debug_signal_handler(signal, frame):
+    print("\n\n!!! INTERRUPT RECEIVED - DROPPING TO DEBUGGER !!!")
+    print("Type 'c' to continue execution, or 'q' to quit.")
+    pdb.set_trace()
+
+# Register the handler for SIGINT (Ctrl+C)
+signal.signal(signal.SIGINT, debug_signal_handler)
 class Host:
     """Host class"""
 
@@ -192,9 +202,14 @@ class Host:
                     break
                 elif currTimeslot - self.sFlows[(dst,sport,dport)][3] >= self.RTO: # timer expired
                     self.sFlows[(dst,sport,dport)][1] = self.sFlows[(dst,sport,dport)][2]
-                    self.numPktSentInCurrWin[(dst,sport,dport)] = self.numAckRecvdInCurrWin[(dst,sport,dport)]
+                    self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                    self.numPktSentInCurrWin[(dst,sport,dport)] = 0
+                    self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                    self.cwnd[(dst,sport,dport)] = 1
                     assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
-                    #print("Timer expired!")
+                    # print("Timer expired!")
+                    # print(f"cwnd = {self.cwnd[(dst,sport,dport)]} ")
+
                 else:
                     self.rrPointer = (self.rrPointer + 1) % len(self.rrSched)
 
@@ -217,6 +232,13 @@ class Host:
 
                 # Advance pointer so RR within the same priority progresses
                 self.rrPointer = (self.rrPointer + 1) % len(self.rrSched)
+            
+            elif schedFlow == 0 and any(self.sFlows[i][1]!=self.sFlows[i][0] for i in self.rrSched):
+                if all(self.sFlows[self.rrSched[i]][3] - currTimeslot >= self.RTO for i in range(len(self.rrSched))):
+                    breakpoint()
+            
+            # if currTimeslot == 321800:
+            #     breakpoint()
                 return
 
 
