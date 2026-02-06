@@ -63,7 +63,7 @@ with open(path, 'r') as f:
         if flowsize < 100:
             fct_short.append(fct_us)
             tput_short.append(recvtput_gbps)
-        elif flowsize > 1000:
+        elif flowsize > 100:
             fct_long.append(fct_us)
             tput_long.append(recvtput_gbps)
         

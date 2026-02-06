@@ -16,13 +16,13 @@ from switch import Switch
 class Network:
     """Network class maintains all hosts, switches, and links"""
 
-    def __init__(self, netJsonFilepath):
+    def __init__(self, netJsonFilepath,load):
         """Create a new network from the parameters in the file at netJsonFilepath"""
 
         # parse configuration details
         netJsonFile = open(netJsonFilepath, 'r')
         netJson = json.load(netJsonFile)
-
+        self.load = load
         self.num_tor_ports = netJson["num_tor_ports"]
         self.num_agg_ports = netJson["num_agg_ports"]
         self.hosts_per_rack = netJson["hosts_per_rack"]
@@ -40,7 +40,7 @@ class Network:
         """Parse switches from switchParams dict"""
         switches = {}
         for addr in switchParams:
-            switches[addr] = Switch(sys.argv[3],addr, self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack)
+            switches[addr] = Switch(self.load,addr, self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack)
         return switches
 
 
@@ -239,7 +239,7 @@ def main():
     flowtrace = sys.argv[2]
     logname = sys.argv[3]
     endTimeslot = int(sys.argv[4])
-    net = Network(netCfgFilepath)
+    net = Network(netCfgFilepath,logname)
     protected = set(glob.glob(os.path.join('logs', 'recvd-flows-*.txt')))
     files = glob.glob('logs/*')
     for f in files: 

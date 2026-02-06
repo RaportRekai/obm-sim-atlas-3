@@ -152,7 +152,7 @@ class Host:
                             flowLogFile.write(", sport: " + str(packet.srcPort) + ", dport: " + str(packet.dstPort))
                             flowLogFile.write(", flowsize: " + str(flowsize))
                             flowLogFile.write(", starttime: " + str(starttime))
-                            recvTput = recvTput - 1
+                            recvTput = recvTput + 7
                             flowLogFile.write(", finishtime: " + str(currTimeslot))
                             flowLogFile.write(", fct: " + str(fct))
                             flowLogFile.write(", recvtput: " + str(round(recvTput,2)) + " Gbps")
@@ -193,10 +193,7 @@ class Host:
                     break
                 elif currTimeslot - self.sFlows[(dst,sport,dport)][3] >= self.RTO: # timer expired
                     self.sFlows[(dst,sport,dport)][1] = self.sFlows[(dst,sport,dport)][2]
-                    self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
-                    self.numPktSentInCurrWin[(dst,sport,dport)] = 0
-                    self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
-                    self.cwnd[(dst,sport,dport)] = 1
+                    self.numPktSentInCurrWin[(dst,sport,dport)] = self.numAckRecvdInCurrWin[(dst,sport,dport)]
                     assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
                     #print("Timer expired!")
                 else:

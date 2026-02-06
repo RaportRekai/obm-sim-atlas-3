@@ -193,10 +193,7 @@ class Host:
                     break
                 elif currTimeslot - self.sFlows[(dst,sport,dport)][3] >= self.RTO: # timer expired
                     self.sFlows[(dst,sport,dport)][1] = self.sFlows[(dst,sport,dport)][2]
-                    self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
-                    self.numPktSentInCurrWin[(dst,sport,dport)] = 0
-                    self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
-                    self.cwnd[(dst,sport,dport)] = 1
+                    self.numPktSentInCurrWin[(dst,sport,dport)] = self.numAckRecvdInCurrWin[(dst,sport,dport)]
                     assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
                     #print("Timer expired!")
                 else:
