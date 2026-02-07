@@ -37,8 +37,8 @@ ALGO_META = {
     "abm":      ("ABM",      "#FFD700"),
     "obm":      ("OBM",      "#FF0000"),
     "lqd":      ("LQD",      "#32CD32"),
-    "credence": ("Credence", "#8A2BE2"),
-    "occamy":   ("Occamy",   "#0000FF"), # Blue
+    "credence": ("Credence", "#0000FF"),
+    "occamy":   ("Occamy",   "#1E90FF"), # Blue
 }
 
 # Added Occamy to the ordering
@@ -52,7 +52,7 @@ YLABEL_FONTSIZE = 53
 XLABEL_FONTSIZE = 53
 YTICK_FONTSIZE  = 53
 XTICK_FONTSIZE  = 53
-LEGEND_FONTSIZE = 39
+LEGEND_FONTSIZE = 50
 TICK_LENGTH     = 12
 TICK_WIDTH      = 2.4
 
@@ -120,7 +120,7 @@ def compact_even_ticks(ax, max_ticks: int, bottom: float = 0.0):
         ax.tick_params(axis="y", labelsize=YTICK_FONTSIZE, length=TICK_LENGTH, width=TICK_WIDTH)
         return
     delta = ticks[1] - ticks[0]
-    ax.set_ylim(top=ticks[-1] + delta, bottom=bottom)
+    ax.set_ylim(top=ticks[-1] + 1.5*delta, bottom=bottom)
     ax.yaxis.set_major_locator(locator)
     ticks2 = [t for t in ax.get_yticks() if t >= bottom]
     if len(ticks2) >= 2:

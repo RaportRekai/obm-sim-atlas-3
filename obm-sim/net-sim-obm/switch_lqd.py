@@ -397,7 +397,7 @@ class Switch():
             #print(f"port qsize = {self.port_qsize}")
         #print("Packets scheduled via final add")
         else:
-            if outPort != (self.largest_index):
+            if outPort != (self.largest_index) or packet.priority == 1:
                 self.buffer[inPort-1] = [packet,outPort]
                 self.k +=1   
                 #breakpoint()

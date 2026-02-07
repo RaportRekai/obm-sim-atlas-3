@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 100vh;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 100vh;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h1", "label": "h1", "shape": "box", "x": 0, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h2", "label": "h2", "shape": "box", "x": 100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h3", "label": "h3", "shape": "box", "x": 200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h4", "label": "h4", "shape": "box", "x": 300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h5", "label": "h5", "shape": "box", "x": 400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h6", "label": "h6", "shape": "box", "x": 500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h7", "label": "h7", "shape": "box", "x": 600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h8", "label": "h8", "shape": "box", "x": 700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h9", "label": "h9", "shape": "box", "x": 800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h10", "label": "h10", "shape": "box", "x": 900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h11", "label": "h11", "shape": "box", "x": 1000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h12", "label": "h12", "shape": "box", "x": 1100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h13", "label": "h13", "shape": "box", "x": 1200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h14", "label": "h14", "shape": "box", "x": 1300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h15", "label": "h15", "shape": "box", "x": 1400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h16", "label": "h16", "shape": "box", "x": 1500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h17", "label": "h17", "shape": "box", "x": 1600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h18", "label": "h18", "shape": "box", "x": 1700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h19", "label": "h19", "shape": "box", "x": 1800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h20", "label": "h20", "shape": "box", "x": 1900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h21", "label": "h21", "shape": "box", "x": 2000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h22", "label": "h22", "shape": "box", "x": 2100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h23", "label": "h23", "shape": "box", "x": 2200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h24", "label": "h24", "shape": "box", "x": 2300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h25", "label": "h25", "shape": "box", "x": 2400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h26", "label": "h26", "shape": "box", "x": 2500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h27", "label": "h27", "shape": "box", "x": 2600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h28", "label": "h28", "shape": "box", "x": 2700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h29", "label": "h29", "shape": "box", "x": 2800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h30", "label": "h30", "shape": "box", "x": 2900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h31", "label": "h31", "shape": "box", "x": 3000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h32", "label": "h32", "shape": "box", "x": 3100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h33", "label": "h33", "shape": "box", "x": 3200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h34", "label": "h34", "shape": "box", "x": 3300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h35", "label": "h35", "shape": "box", "x": 3400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h36", "label": "h36", "shape": "box", "x": 3500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h37", "label": "h37", "shape": "box", "x": 3600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h38", "label": "h38", "shape": "box", "x": 3700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h39", "label": "h39", "shape": "box", "x": 3800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h40", "label": "h40", "shape": "box", "x": 3900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h41", "label": "h41", "shape": "box", "x": 4000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h42", "label": "h42", "shape": "box", "x": 4100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h43", "label": "h43", "shape": "box", "x": 4200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h44", "label": "h44", "shape": "box", "x": 4300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h45", "label": "h45", "shape": "box", "x": 4400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h46", "label": "h46", "shape": "box", "x": 4500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h47", "label": "h47", "shape": "box", "x": 4600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h48", "label": "h48", "shape": "box", "x": 4700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h49", "label": "h49", "shape": "box", "x": 4800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h50", "label": "h50", "shape": "box", "x": 4900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h51", "label": "h51", "shape": "box", "x": 5000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h52", "label": "h52", "shape": "box", "x": 5100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h53", "label": "h53", "shape": "box", "x": 5200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h54", "label": "h54", "shape": "box", "x": 5300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h55", "label": "h55", "shape": "box", "x": 5400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h56", "label": "h56", "shape": "box", "x": 5500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h57", "label": "h57", "shape": "box", "x": 5600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h58", "label": "h58", "shape": "box", "x": 5700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h59", "label": "h59", "shape": "box", "x": 5800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h60", "label": "h60", "shape": "box", "x": 5900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h61", "label": "h61", "shape": "box", "x": 6000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h62", "label": "h62", "shape": "box", "x": 6100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h63", "label": "h63", "shape": "box", "x": 6200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h64", "label": "h64", "shape": "box", "x": 6300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h65", "label": "h65", "shape": "box", "x": 6400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h66", "label": "h66", "shape": "box", "x": 6500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h67", "label": "h67", "shape": "box", "x": 6600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h68", "label": "h68", "shape": "box", "x": 6700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h69", "label": "h69", "shape": "box", "x": 6800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h70", "label": "h70", "shape": "box", "x": 6900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h71", "label": "h71", "shape": "box", "x": 7000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h72", "label": "h72", "shape": "box", "x": 7100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h73", "label": "h73", "shape": "box", "x": 7200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h74", "label": "h74", "shape": "box", "x": 7300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h75", "label": "h75", "shape": "box", "x": 7400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h76", "label": "h76", "shape": "box", "x": 7500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h77", "label": "h77", "shape": "box", "x": 7600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h78", "label": "h78", "shape": "box", "x": 7700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h79", "label": "h79", "shape": "box", "x": 7800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h80", "label": "h80", "shape": "box", "x": 7900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h81", "label": "h81", "shape": "box", "x": 8000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h82", "label": "h82", "shape": "box", "x": 8100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h83", "label": "h83", "shape": "box", "x": 8200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h84", "label": "h84", "shape": "box", "x": 8300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h85", "label": "h85", "shape": "box", "x": 8400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h86", "label": "h86", "shape": "box", "x": 8500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h87", "label": "h87", "shape": "box", "x": 8600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h88", "label": "h88", "shape": "box", "x": 8700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h89", "label": "h89", "shape": "box", "x": 8800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h90", "label": "h90", "shape": "box", "x": 8900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h91", "label": "h91", "shape": "box", "x": 9000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h92", "label": "h92", "shape": "box", "x": 9100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h93", "label": "h93", "shape": "box", "x": 9200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h94", "label": "h94", "shape": "box", "x": 9300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h95", "label": "h95", "shape": "box", "x": 9400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h96", "label": "h96", "shape": "box", "x": 9500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h97", "label": "h97", "shape": "box", "x": 9600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h98", "label": "h98", "shape": "box", "x": 9700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h99", "label": "h99", "shape": "box", "x": 9800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h100", "label": "h100", "shape": "box", "x": 9900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h101", "label": "h101", "shape": "box", "x": 10000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h102", "label": "h102", "shape": "box", "x": 10100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h103", "label": "h103", "shape": "box", "x": 10200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h104", "label": "h104", "shape": "box", "x": 10300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h105", "label": "h105", "shape": "box", "x": 10400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h106", "label": "h106", "shape": "box", "x": 10500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h107", "label": "h107", "shape": "box", "x": 10600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h108", "label": "h108", "shape": "box", "x": 10700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h109", "label": "h109", "shape": "box", "x": 10800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h110", "label": "h110", "shape": "box", "x": 10900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h111", "label": "h111", "shape": "box", "x": 11000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h112", "label": "h112", "shape": "box", "x": 11100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h113", "label": "h113", "shape": "box", "x": 11200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h114", "label": "h114", "shape": "box", "x": 11300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h115", "label": "h115", "shape": "box", "x": 11400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h116", "label": "h116", "shape": "box", "x": 11500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h117", "label": "h117", "shape": "box", "x": 11600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h118", "label": "h118", "shape": "box", "x": 11700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h119", "label": "h119", "shape": "box", "x": 11800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h120", "label": "h120", "shape": "box", "x": 11900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h121", "label": "h121", "shape": "box", "x": 12000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h122", "label": "h122", "shape": "box", "x": 12100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h123", "label": "h123", "shape": "box", "x": 12200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h124", "label": "h124", "shape": "box", "x": 12300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h125", "label": "h125", "shape": "box", "x": 12400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h126", "label": "h126", "shape": "box", "x": 12500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h127", "label": "h127", "shape": "box", "x": 12600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h128", "label": "h128", "shape": "box", "x": 12700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h129", "label": "h129", "shape": "box", "x": 12800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h130", "label": "h130", "shape": "box", "x": 12900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h131", "label": "h131", "shape": "box", "x": 13000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h132", "label": "h132", "shape": "box", "x": 13100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h133", "label": "h133", "shape": "box", "x": 13200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h134", "label": "h134", "shape": "box", "x": 13300, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h135", "label": "h135", "shape": "box", "x": 13400, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h136", "label": "h136", "shape": "box", "x": 13500, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h137", "label": "h137", "shape": "box", "x": 13600, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h138", "label": "h138", "shape": "box", "x": 13700, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h139", "label": "h139", "shape": "box", "x": 13800, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h140", "label": "h140", "shape": "box", "x": 13900, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h141", "label": "h141", "shape": "box", "x": 14000, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h142", "label": "h142", "shape": "box", "x": 14100, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h143", "label": "h143", "shape": "box", "x": 14200, "y": 3000}, {"color": "blue", "fixed": true, "font": {"color": "white"}, "id": "h144", "label": "h144", "shape": "box", "x": 14300, "y": 3000}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t1", "label": "t1", "shape": "box", "x": 100, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t2", "label": "t2", "shape": "box", "x": 400, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t3", "label": "t3", "shape": "box", "x": 700, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t4", "label": "t4", "shape": "box", "x": 1000, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t5", "label": "t5", "shape": "box", "x": 1300, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t6", "label": "t6", "shape": "box", "x": 1600, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t7", "label": "t7", "shape": "box", "x": 1900, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t8", "label": "t8", "shape": "box", "x": 2200, "y": 2800}, {"color": "red", "fixed": true, "font": {"color": "white"}, "id": "t9", "label": "t9", "shape": "box", "x": 2500, "y": 2800}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a1", "label": "a1", "shape": "box", "x": 100, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a2", "label": "a2", "shape": "box", "x": 400, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a3", "label": "a3", "shape": "box", "x": 700, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a4", "label": "a4", "shape": "box", "x": 1000, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a5", "label": "a5", "shape": "box", "x": 1300, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a6", "label": "a6", "shape": "box", "x": 1600, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a7", "label": "a7", "shape": "box", "x": 1900, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a8", "label": "a8", "shape": "box", "x": 2200, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a9", "label": "a9", "shape": "box", "x": 2500, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a10", "label": "a10", "shape": "box", "x": 2800, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a11", "label": "a11", "shape": "box", "x": 3100, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a12", "label": "a12", "shape": "box", "x": 3400, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a13", "label": "a13", "shape": "box", "x": 3700, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a14", "label": "a14", "shape": "box", "x": 4000, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a15", "label": "a15", "shape": "box", "x": 4300, "y": 2600}, {"color": "green", "fixed": true, "font": {"color": "white"}, "id": "a16", "label": "a16", "shape": "box", "x": 4600, "y": 2600}]);
+                  edges = new vis.DataSet([{"from": "h1", "to": "t1"}, {"from": "h2", "to": "t1"}, {"from": "h3", "to": "t1"}, {"from": "h4", "to": "t1"}, {"from": "h5", "to": "t1"}, {"from": "h6", "to": "t1"}, {"from": "h7", "to": "t1"}, {"from": "h8", "to": "t1"}, {"from": "h9", "to": "t1"}, {"from": "h10", "to": "t1"}, {"from": "h11", "to": "t1"}, {"from": "h12", "to": "t1"}, {"from": "h13", "to": "t1"}, {"from": "h14", "to": "t1"}, {"from": "h15", "to": "t1"}, {"from": "h16", "to": "t1"}, {"from": "h17", "to": "t2"}, {"from": "h18", "to": "t2"}, {"from": "h19", "to": "t2"}, {"from": "h20", "to": "t2"}, {"from": "h21", "to": "t2"}, {"from": "h22", "to": "t2"}, {"from": "h23", "to": "t2"}, {"from": "h24", "to": "t2"}, {"from": "h25", "to": "t2"}, {"from": "h26", "to": "t2"}, {"from": "h27", "to": "t2"}, {"from": "h28", "to": "t2"}, {"from": "h29", "to": "t2"}, {"from": "h30", "to": "t2"}, {"from": "h31", "to": "t2"}, {"from": "h32", "to": "t2"}, {"from": "h33", "to": "t3"}, {"from": "h34", "to": "t3"}, {"from": "h35", "to": "t3"}, {"from": "h36", "to": "t3"}, {"from": "h37", "to": "t3"}, {"from": "h38", "to": "t3"}, {"from": "h39", "to": "t3"}, {"from": "h40", "to": "t3"}, {"from": "h41", "to": "t3"}, {"from": "h42", "to": "t3"}, {"from": "h43", "to": "t3"}, {"from": "h44", "to": "t3"}, {"from": "h45", "to": "t3"}, {"from": "h46", "to": "t3"}, {"from": "h47", "to": "t3"}, {"from": "h48", "to": "t3"}, {"from": "h49", "to": "t4"}, {"from": "h50", "to": "t4"}, {"from": "h51", "to": "t4"}, {"from": "h52", "to": "t4"}, {"from": "h53", "to": "t4"}, {"from": "h54", "to": "t4"}, {"from": "h55", "to": "t4"}, {"from": "h56", "to": "t4"}, {"from": "h57", "to": "t4"}, {"from": "h58", "to": "t4"}, {"from": "h59", "to": "t4"}, {"from": "h60", "to": "t4"}, {"from": "h61", "to": "t4"}, {"from": "h62", "to": "t4"}, {"from": "h63", "to": "t4"}, {"from": "h64", "to": "t4"}, {"from": "h65", "to": "t5"}, {"from": "h66", "to": "t5"}, {"from": "h67", "to": "t5"}, {"from": "h68", "to": "t5"}, {"from": "h69", "to": "t5"}, {"from": "h70", "to": "t5"}, {"from": "h71", "to": "t5"}, {"from": "h72", "to": "t5"}, {"from": "h73", "to": "t5"}, {"from": "h74", "to": "t5"}, {"from": "h75", "to": "t5"}, {"from": "h76", "to": "t5"}, {"from": "h77", "to": "t5"}, {"from": "h78", "to": "t5"}, {"from": "h79", "to": "t5"}, {"from": "h80", "to": "t5"}, {"from": "h81", "to": "t6"}, {"from": "h82", "to": "t6"}, {"from": "h83", "to": "t6"}, {"from": "h84", "to": "t6"}, {"from": "h85", "to": "t6"}, {"from": "h86", "to": "t6"}, {"from": "h87", "to": "t6"}, {"from": "h88", "to": "t6"}, {"from": "h89", "to": "t6"}, {"from": "h90", "to": "t6"}, {"from": "h91", "to": "t6"}, {"from": "h92", "to": "t6"}, {"from": "h93", "to": "t6"}, {"from": "h94", "to": "t6"}, {"from": "h95", "to": "t6"}, {"from": "h96", "to": "t6"}, {"from": "h97", "to": "t7"}, {"from": "h98", "to": "t7"}, {"from": "h99", "to": "t7"}, {"from": "h100", "to": "t7"}, {"from": "h101", "to": "t7"}, {"from": "h102", "to": "t7"}, {"from": "h103", "to": "t7"}, {"from": "h104", "to": "t7"}, {"from": "h105", "to": "t7"}, {"from": "h106", "to": "t7"}, {"from": "h107", "to": "t7"}, {"from": "h108", "to": "t7"}, {"from": "h109", "to": "t7"}, {"from": "h110", "to": "t7"}, {"from": "h111", "to": "t7"}, {"from": "h112", "to": "t7"}, {"from": "h113", "to": "t8"}, {"from": "h114", "to": "t8"}, {"from": "h115", "to": "t8"}, {"from": "h116", "to": "t8"}, {"from": "h117", "to": "t8"}, {"from": "h118", "to": "t8"}, {"from": "h119", "to": "t8"}, {"from": "h120", "to": "t8"}, {"from": "h121", "to": "t8"}, {"from": "h122", "to": "t8"}, {"from": "h123", "to": "t8"}, {"from": "h124", "to": "t8"}, {"from": "h125", "to": "t8"}, {"from": "h126", "to": "t8"}, {"from": "h127", "to": "t8"}, {"from": "h128", "to": "t8"}, {"from": "h129", "to": "t9"}, {"from": "h130", "to": "t9"}, {"from": "h131", "to": "t9"}, {"from": "h132", "to": "t9"}, {"from": "h133", "to": "t9"}, {"from": "h134", "to": "t9"}, {"from": "h135", "to": "t9"}, {"from": "h136", "to": "t9"}, {"from": "h137", "to": "t9"}, {"from": "h138", "to": "t9"}, {"from": "h139", "to": "t9"}, {"from": "h140", "to": "t9"}, {"from": "h141", "to": "t9"}, {"from": "h142", "to": "t9"}, {"from": "h143", "to": "t9"}, {"from": "h144", "to": "t9"}, {"from": "t1", "to": "a1"}, {"from": "t1", "to": "a2"}, {"from": "t1", "to": "a3"}, {"from": "t1", "to": "a4"}, {"from": "t1", "to": "a5"}, {"from": "t1", "to": "a6"}, {"from": "t1", "to": "a7"}, {"from": "t1", "to": "a8"}, {"from": "t1", "to": "a9"}, {"from": "t1", "to": "a10"}, {"from": "t1", "to": "a11"}, {"from": "t1", "to": "a12"}, {"from": "t1", "to": "a13"}, {"from": "t1", "to": "a14"}, {"from": "t1", "to": "a15"}, {"from": "t1", "to": "a16"}, {"from": "t2", "to": "a1"}, {"from": "t2", "to": "a2"}, {"from": "t2", "to": "a3"}, {"from": "t2", "to": "a4"}, {"from": "t2", "to": "a5"}, {"from": "t2", "to": "a6"}, {"from": "t2", "to": "a7"}, {"from": "t2", "to": "a8"}, {"from": "t2", "to": "a9"}, {"from": "t2", "to": "a10"}, {"from": "t2", "to": "a11"}, {"from": "t2", "to": "a12"}, {"from": "t2", "to": "a13"}, {"from": "t2", "to": "a14"}, {"from": "t2", "to": "a15"}, {"from": "t2", "to": "a16"}, {"from": "t3", "to": "a1"}, {"from": "t3", "to": "a2"}, {"from": "t3", "to": "a3"}, {"from": "t3", "to": "a4"}, {"from": "t3", "to": "a5"}, {"from": "t3", "to": "a6"}, {"from": "t3", "to": "a7"}, {"from": "t3", "to": "a8"}, {"from": "t3", "to": "a9"}, {"from": "t3", "to": "a10"}, {"from": "t3", "to": "a11"}, {"from": "t3", "to": "a12"}, {"from": "t3", "to": "a13"}, {"from": "t3", "to": "a14"}, {"from": "t3", "to": "a15"}, {"from": "t3", "to": "a16"}, {"from": "t4", "to": "a1"}, {"from": "t4", "to": "a2"}, {"from": "t4", "to": "a3"}, {"from": "t4", "to": "a4"}, {"from": "t4", "to": "a5"}, {"from": "t4", "to": "a6"}, {"from": "t4", "to": "a7"}, {"from": "t4", "to": "a8"}, {"from": "t4", "to": "a9"}, {"from": "t4", "to": "a10"}, {"from": "t4", "to": "a11"}, {"from": "t4", "to": "a12"}, {"from": "t4", "to": "a13"}, {"from": "t4", "to": "a14"}, {"from": "t4", "to": "a15"}, {"from": "t4", "to": "a16"}, {"from": "t5", "to": "a1"}, {"from": "t5", "to": "a2"}, {"from": "t5", "to": "a3"}, {"from": "t5", "to": "a4"}, {"from": "t5", "to": "a5"}, {"from": "t5", "to": "a6"}, {"from": "t5", "to": "a7"}, {"from": "t5", "to": "a8"}, {"from": "t5", "to": "a9"}, {"from": "t5", "to": "a10"}, {"from": "t5", "to": "a11"}, {"from": "t5", "to": "a12"}, {"from": "t5", "to": "a13"}, {"from": "t5", "to": "a14"}, {"from": "t5", "to": "a15"}, {"from": "t5", "to": "a16"}, {"from": "t6", "to": "a1"}, {"from": "t6", "to": "a2"}, {"from": "t6", "to": "a3"}, {"from": "t6", "to": "a4"}, {"from": "t6", "to": "a5"}, {"from": "t6", "to": "a6"}, {"from": "t6", "to": "a7"}, {"from": "t6", "to": "a8"}, {"from": "t6", "to": "a9"}, {"from": "t6", "to": "a10"}, {"from": "t6", "to": "a11"}, {"from": "t6", "to": "a12"}, {"from": "t6", "to": "a13"}, {"from": "t6", "to": "a14"}, {"from": "t6", "to": "a15"}, {"from": "t6", "to": "a16"}, {"from": "t7", "to": "a1"}, {"from": "t7", "to": "a2"}, {"from": "t7", "to": "a3"}, {"from": "t7", "to": "a4"}, {"from": "t7", "to": "a5"}, {"from": "t7", "to": "a6"}, {"from": "t7", "to": "a7"}, {"from": "t7", "to": "a8"}, {"from": "t7", "to": "a9"}, {"from": "t7", "to": "a10"}, {"from": "t7", "to": "a11"}, {"from": "t7", "to": "a12"}, {"from": "t7", "to": "a13"}, {"from": "t7", "to": "a14"}, {"from": "t7", "to": "a15"}, {"from": "t7", "to": "a16"}, {"from": "t8", "to": "a1"}, {"from": "t8", "to": "a2"}, {"from": "t8", "to": "a3"}, {"from": "t8", "to": "a4"}, {"from": "t8", "to": "a5"}, {"from": "t8", "to": "a6"}, {"from": "t8", "to": "a7"}, {"from": "t8", "to": "a8"}, {"from": "t8", "to": "a9"}, {"from": "t8", "to": "a10"}, {"from": "t8", "to": "a11"}, {"from": "t8", "to": "a12"}, {"from": "t8", "to": "a13"}, {"from": "t8", "to": "a14"}, {"from": "t8", "to": "a15"}, {"from": "t8", "to": "a16"}, {"from": "t9", "to": "a1"}, {"from": "t9", "to": "a2"}, {"from": "t9", "to": "a3"}, {"from": "t9", "to": "a4"}, {"from": "t9", "to": "a5"}, {"from": "t9", "to": "a6"}, {"from": "t9", "to": "a7"}, {"from": "t9", "to": "a8"}, {"from": "t9", "to": "a9"}, {"from": "t9", "to": "a10"}, {"from": "t9", "to": "a11"}, {"from": "t9", "to": "a12"}, {"from": "t9", "to": "a13"}, {"from": "t9", "to": "a14"}, {"from": "t9", "to": "a15"}, {"from": "t9", "to": "a16"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
