@@ -887,3 +887,58 @@ Total recv throughput (short, n=98): -79.36 Gbps
 Average recv throughput (short): -0.81 Gbps
 Total recv throughput (long, n=30): 549.04 Gbps
 Average recv throughput (long): 25.301 Gbps
+Network throughput (assuming 100G link and 1500B pkt): 116.002 Gbps
+current timeslot: 43327 total packets sent: 58859 total packets received: 50260  total flows finished(long,short): 9  ,  26 
+workloads/incast-trace-100G-degree-0.2.csv.processed
+Average FCT short flows: 341.497us
+p99 FCT short flows: 387.14us
+p99.9 FCT short flows: 488.268us
+Average FCT long flows: 4245.6us
+p99 FCT long flows: 5058.18us
+p99.9 FCT long flows: 5197.711us
+Total recv throughput (short, n=26): 192.4 Gbps
+Average recv throughput (short): 7.4 Gbps
+Total recv throughput (long, n=10): 223.2 Gbps
+Average recv throughput (long): 30.32 Gbps
+Network throughput (assuming 100G link and 1500B pkt): 139.874 Gbps
+current timeslot: 50760 total packets sent: 89578 total packets received: 71000  total flows finished(long,short): 13  ,  50 
+workloads/incast-trace-100G-degree-0.4.csv.processed
+Average FCT short flows: 853.522us
+p99 FCT short flows: 1346.172us
+p99.9 FCT short flows: 1353.834us
+Average FCT long flows: 4885.174us
+p99 FCT long flows: 5750.028us
+p99.9 FCT long flows: 6086.809us
+Total recv throughput (short, n=50): 369.45 Gbps
+Average recv throughput (short): 7.389 Gbps
+Total recv throughput (long, n=14): 274.53 Gbps
+Average recv throughput (long): 25.609 Gbps
+Network throughput (assuming 100G link and 1500B pkt): 141.045 Gbps
+current timeslot: 50679 total packets sent: 94029 total packets received: 71480  total flows finished(long,short): 13  ,  74 
+workloads/incast-trace-100G-degree-0.6.csv.processed
+Average FCT short flows: 1127.969us
+p99 FCT short flows: 1720.332us
+p99.9 FCT short flows: 1953.959us
+Average FCT long flows: 4562.254us
+p99 FCT long flows: 5563.536us
+p99.9 FCT long flows: 6076.905us
+Total recv throughput (short, n=74): 554.06 Gbps
+Average recv throughput (short): 7.487 Gbps
+Total recv throughput (long, n=14): 291.07 Gbps
+Average recv throughput (long): 25.791 Gbps
+Network throughput (assuming 100G link and 1500B pkt): 143.553 Gbps
+current timeslot: 50128 total packets sent: 104949 total packets received: 71960  total flows finished(long,short): 13  ,  98 
+workloads/incast-trace-100G-degree-0.8.csv.processed
+Average FCT short flows: 1512.143us
+p99 FCT short flows: 2329.296us
+p99.9 FCT short flows: 2453.148us
+Average FCT long flows: 4942.389us
+p99 FCT long flows: 5663.196us
+p99.9 FCT long flows: 5892.939us
+Total recv throughput (short, n=98): 709.34 Gbps
+Average recv throughput (short): 7.238 Gbps
+Total recv throughput (long, n=14): 274.29 Gbps
+Average recv throughput (long): 24.592 Gbps
+Network throughput (assuming 100G link and 1500B pkt): 133.343 Gbps
+current timeslot: 52691 total packets sent: 85356 total packets received: 70260  total flows finished(long,short): 13  ,  26 
+

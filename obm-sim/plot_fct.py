@@ -31,17 +31,16 @@ from matplotlib.ticker import MaxNLocator
 from collections import defaultdict
 
 # ── Display mapping ──────────────────────────────────────────────
-# Added Occamy with a distinct Blue color
 ALGO_META = {
     "dt":       ("DT",       "#00FFFF"),
     "abm":      ("ABM",      "#FFD700"),
     "obm":      ("OBM",      "#FF0000"),
     "lqd":      ("LQD",      "#32CD32"),
-    "credence": ("Credence", "#0000FF"),
-    "occamy":   ("Occamy",   "#1E90FF"), # Blue
+    "credence": ("Credence", "#555555"),
+    "occamy":   ("Occamy",   "#1E90FF"), # Added Occamy (Blue)
 }
 
-# Added Occamy to the ordering
+# Updated order to include Occamy
 ORDERED_LABELS = ["DT", "ABM", "OBM", "LQD", "Credence", "Occamy"]
 BASELINE_LABEL = "OBM"  # normalization reference (must match an ORDERED_LABELS item)
 
@@ -52,7 +51,7 @@ YLABEL_FONTSIZE = 53
 XLABEL_FONTSIZE = 53
 YTICK_FONTSIZE  = 53
 XTICK_FONTSIZE  = 53
-LEGEND_FONTSIZE = 50
+LEGEND_FONTSIZE = 39
 TICK_LENGTH     = 12
 TICK_WIDTH      = 2.4
 
@@ -120,7 +119,7 @@ def compact_even_ticks(ax, max_ticks: int, bottom: float = 0.0):
         ax.tick_params(axis="y", labelsize=YTICK_FONTSIZE, length=TICK_LENGTH, width=TICK_WIDTH)
         return
     delta = ticks[1] - ticks[0]
-    ax.set_ylim(top=ticks[-1] + 1.5*delta, bottom=bottom)
+    ax.set_ylim(top=ticks[-1] + 2*delta, bottom=bottom)
     ax.yaxis.set_major_locator(locator)
     ticks2 = [t for t in ax.get_yticks() if t >= bottom]
     if len(ticks2) >= 2:
@@ -158,7 +157,7 @@ def grouped_bars(ax, x_ticks, data_by_label, colors, ylabel, dataset):
     ax.set_axisbelow(True)
 
 def square_legend(ax, loc="upper left"):
-    """Legend in a square-ish grid."""
+    """Legend in a square-ish grid (dynamic columns)."""
     import math
     ncol = int(math.ceil(math.sqrt(len(ORDERED_LABELS))))
     lgd = ax.legend(loc=loc, frameon=True, fontsize=LEGEND_FONTSIZE,
@@ -252,10 +251,9 @@ def plot_all(agg, outdir, dpi: int):
 
 def main():
     ap = argparse.ArgumentParser()
-    # Updated default list to include stats_occamy.txt
     ap.add_argument("--files", nargs="*", default=[
-        "stats_dt.txt", "stats_abm.txt", "stats_obm.txt", "stats_lqd.txt", 
-        "stats_credence.txt", "stats_occamy.txt"
+        "stats_dt.txt", "stats_abm.txt", "stats_obm.txt",
+        "stats_lqd.txt", "stats_credence.txt", "stats_occamy.txt"
     ], help="Paths to stats files (any order).")
     ap.add_argument("--outdir", default=".", help="Where to write PNGs.")
     ap.add_argument("--dpi", type=int, default=180,
@@ -274,8 +272,7 @@ def main():
             elif "obm"      in base: algo_key = "obm"
             elif "lqd"      in base: algo_key = "lqd"
             elif "credence" in base: algo_key = "credence"
-            # Added detection for Occamy
-            elif "occamy"   in base: algo_key = "occamy"
+            elif "occamy"   in base: algo_key = "occamy" # Added parsing for Occamy
         if not algo_key:
             continue
         if not os.path.isfile(path):

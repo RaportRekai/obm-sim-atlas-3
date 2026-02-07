@@ -72,7 +72,7 @@ with open(path, 'r') as f:
 def print_fct_stats(name, arr):
     arr = sorted(arr)
     avgfct = np.mean(arr) if arr else float('nan')
-    p99fct = np.percentile(arr, perc()) if arr else float('nan')
+    p99fct = np.percentile(arr, 90) if arr else float('nan')
     p999fct = np.percentile(arr, 99.9) if arr else float('nan')
     sys.stdout.write(f"Average FCT {name} flows: {round(avgfct,3)}us\n")
     sys.stdout.write(f"p99 FCT {name} flows: {round(p99fct,3)}us\n")

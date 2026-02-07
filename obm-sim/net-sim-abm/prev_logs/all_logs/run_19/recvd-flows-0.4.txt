@@ -1,0 +1,128 @@
+66, src: h101, dst: h144, sport: 67, dport: 67, flowsize: 20, starttime: 1000, finishtime: 2168, fct: 1168, recvtput: 8.71 Gbps, sendtput: 1.93 Gbps
+
+67, src: h102, dst: h144, sport: 68, dport: 68, flowsize: 20, starttime: 1000, finishtime: 2169, fct: 1169, recvtput: 8.71 Gbps, sendtput: 1.93 Gbps
+
+72, src: h115, dst: h144, sport: 73, dport: 73, flowsize: 20, starttime: 1000, finishtime: 3057, fct: 2057, recvtput: 7.97 Gbps, sendtput: 0.98 Gbps
+
+73, src: h116, dst: h144, sport: 74, dport: 74, flowsize: 20, starttime: 1000, finishtime: 3117, fct: 2117, recvtput: 7.94 Gbps, sendtput: 0.98 Gbps
+
+71, src: h106, dst: h144, sport: 72, dport: 72, flowsize: 20, starttime: 1000, finishtime: 3119, fct: 2119, recvtput: 7.94 Gbps, sendtput: 0.98 Gbps
+
+42, src: h37, dst: h144, sport: 43, dport: 43, flowsize: 20, starttime: 1000, finishtime: 4120, fct: 3120, recvtput: 7.64 Gbps, sendtput: 0.66 Gbps
+
+45, src: h40, dst: h144, sport: 46, dport: 46, flowsize: 20, starttime: 1000, finishtime: 4123, fct: 3123, recvtput: 7.64 Gbps, sendtput: 0.65 Gbps
+
+30, src: h5, dst: h144, sport: 31, dport: 31, flowsize: 20, starttime: 1000, finishtime: 5140, fct: 4140, recvtput: 7.48 Gbps, sendtput: 0.49 Gbps
+
+51, src: h56, dst: h144, sport: 52, dport: 52, flowsize: 20, starttime: 1000, finishtime: 5143, fct: 4143, recvtput: 7.48 Gbps, sendtput: 0.49 Gbps
+
+70, src: h105, dst: h144, sport: 71, dport: 71, flowsize: 20, starttime: 1000, finishtime: 5179, fct: 4179, recvtput: 7.48 Gbps, sendtput: 0.49 Gbps
+
+34, src: h9, dst: h144, sport: 35, dport: 35, flowsize: 20, starttime: 1000, finishtime: 6096, fct: 5096, recvtput: 7.39 Gbps, sendtput: 0.39 Gbps
+
+69, src: h104, dst: h144, sport: 70, dport: 70, flowsize: 20, starttime: 1000, finishtime: 6098, fct: 5098, recvtput: 7.39 Gbps, sendtput: 0.39 Gbps
+
+43, src: h38, dst: h144, sport: 44, dport: 44, flowsize: 20, starttime: 1000, finishtime: 6106, fct: 5106, recvtput: 7.39 Gbps, sendtput: 0.39 Gbps
+
+60, src: h85, dst: h144, sport: 61, dport: 61, flowsize: 20, starttime: 1000, finishtime: 6119, fct: 5119, recvtput: 7.39 Gbps, sendtput: 0.39 Gbps
+
+46, src: h41, dst: h144, sport: 47, dport: 47, flowsize: 20, starttime: 1000, finishtime: 6141, fct: 5141, recvtput: 7.39 Gbps, sendtput: 0.39 Gbps
+
+52, src: h57, dst: h144, sport: 53, dport: 53, flowsize: 20, starttime: 1000, finishtime: 7113, fct: 6113, recvtput: 7.33 Gbps, sendtput: 0.33 Gbps
+
+76, src: h119, dst: h144, sport: 77, dport: 77, flowsize: 20, starttime: 1000, finishtime: 7118, fct: 6118, recvtput: 7.33 Gbps, sendtput: 0.33 Gbps
+
+39, src: h24, dst: h144, sport: 40, dport: 40, flowsize: 20, starttime: 1000, finishtime: 7124, fct: 6124, recvtput: 7.33 Gbps, sendtput: 0.33 Gbps
+
+37, src: h22, dst: h144, sport: 38, dport: 38, flowsize: 20, starttime: 1000, finishtime: 7139, fct: 6139, recvtput: 7.33 Gbps, sendtput: 0.33 Gbps
+
+63, src: h88, dst: h144, sport: 64, dport: 64, flowsize: 20, starttime: 1000, finishtime: 7155, fct: 6155, recvtput: 7.32 Gbps, sendtput: 0.33 Gbps
+
+41, src: h26, dst: h144, sport: 42, dport: 42, flowsize: 20, starttime: 1000, finishtime: 8118, fct: 7118, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+47, src: h42, dst: h144, sport: 48, dport: 48, flowsize: 20, starttime: 1000, finishtime: 8119, fct: 7119, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+58, src: h73, dst: h144, sport: 59, dport: 59, flowsize: 20, starttime: 1000, finishtime: 8127, fct: 7127, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+31, src: h6, dst: h144, sport: 32, dport: 32, flowsize: 20, starttime: 1000, finishtime: 8136, fct: 7136, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+36, src: h21, dst: h144, sport: 37, dport: 37, flowsize: 20, starttime: 1000, finishtime: 8138, fct: 7138, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+44, src: h39, dst: h144, sport: 45, dport: 45, flowsize: 20, starttime: 1000, finishtime: 8144, fct: 7144, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+55, src: h70, dst: h144, sport: 56, dport: 56, flowsize: 20, starttime: 1000, finishtime: 8145, fct: 7145, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+56, src: h71, dst: h144, sport: 57, dport: 57, flowsize: 20, starttime: 1000, finishtime: 8169, fct: 7169, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+53, src: h58, dst: h144, sport: 54, dport: 54, flowsize: 20, starttime: 1000, finishtime: 8243, fct: 7243, recvtput: 7.28 Gbps, sendtput: 0.28 Gbps
+
+68, src: h103, dst: h144, sport: 69, dport: 69, flowsize: 20, starttime: 1000, finishtime: 9160, fct: 8160, recvtput: 7.25 Gbps, sendtput: 0.25 Gbps
+
+74, src: h117, dst: h144, sport: 75, dport: 75, flowsize: 20, starttime: 1000, finishtime: 9161, fct: 8161, recvtput: 7.25 Gbps, sendtput: 0.25 Gbps
+
+40, src: h25, dst: h144, sport: 41, dport: 41, flowsize: 20, starttime: 1000, finishtime: 9162, fct: 8162, recvtput: 7.25 Gbps, sendtput: 0.25 Gbps
+
+77, src: h120, dst: h144, sport: 78, dport: 78, flowsize: 20, starttime: 1000, finishtime: 9166, fct: 8166, recvtput: 7.24 Gbps, sendtput: 0.25 Gbps
+
+78, src: h121, dst: h144, sport: 79, dport: 79, flowsize: 20, starttime: 1000, finishtime: 9219, fct: 8219, recvtput: 7.24 Gbps, sendtput: 0.25 Gbps
+
+35, src: h10, dst: h144, sport: 36, dport: 36, flowsize: 20, starttime: 1000, finishtime: 9272, fct: 8272, recvtput: 7.24 Gbps, sendtput: 0.24 Gbps
+
+75, src: h118, dst: h144, sport: 76, dport: 76, flowsize: 20, starttime: 1000, finishtime: 10218, fct: 9218, recvtput: 7.22 Gbps, sendtput: 0.22 Gbps
+
+38, src: h23, dst: h144, sport: 39, dport: 39, flowsize: 20, starttime: 1000, finishtime: 10239, fct: 9239, recvtput: 7.22 Gbps, sendtput: 0.22 Gbps
+
+48, src: h53, dst: h144, sport: 49, dport: 49, flowsize: 20, starttime: 1000, finishtime: 11218, fct: 10218, recvtput: 7.2 Gbps, sendtput: 0.2 Gbps
+
+32, src: h7, dst: h144, sport: 33, dport: 33, flowsize: 20, starttime: 1000, finishtime: 11222, fct: 10222, recvtput: 7.2 Gbps, sendtput: 0.2 Gbps
+
+49, src: h54, dst: h144, sport: 50, dport: 50, flowsize: 20, starttime: 1000, finishtime: 11234, fct: 10234, recvtput: 7.2 Gbps, sendtput: 0.2 Gbps
+
+61, src: h86, dst: h144, sport: 62, dport: 62, flowsize: 20, starttime: 1000, finishtime: 11242, fct: 10242, recvtput: 7.2 Gbps, sendtput: 0.2 Gbps
+
+33, src: h8, dst: h144, sport: 34, dport: 34, flowsize: 20, starttime: 1000, finishtime: 11280, fct: 10280, recvtput: 7.19 Gbps, sendtput: 0.2 Gbps
+
+79, src: h122, dst: h144, sport: 80, dport: 80, flowsize: 20, starttime: 1000, finishtime: 11281, fct: 10281, recvtput: 7.19 Gbps, sendtput: 0.2 Gbps
+
+64, src: h89, dst: h144, sport: 65, dport: 65, flowsize: 20, starttime: 1000, finishtime: 12214, fct: 11214, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+65, src: h90, dst: h144, sport: 66, dport: 66, flowsize: 20, starttime: 1000, finishtime: 12218, fct: 11218, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+59, src: h74, dst: h144, sport: 60, dport: 60, flowsize: 20, starttime: 1000, finishtime: 12219, fct: 11219, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+54, src: h69, dst: h144, sport: 55, dport: 55, flowsize: 20, starttime: 1000, finishtime: 12222, fct: 11222, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+50, src: h55, dst: h144, sport: 51, dport: 51, flowsize: 20, starttime: 1000, finishtime: 12241, fct: 11241, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+62, src: h87, dst: h144, sport: 63, dport: 63, flowsize: 20, starttime: 1000, finishtime: 12281, fct: 11281, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+57, src: h72, dst: h144, sport: 58, dport: 58, flowsize: 20, starttime: 1000, finishtime: 12282, fct: 11282, recvtput: 7.18 Gbps, sendtput: 0.18 Gbps
+
+6, src: h97, dst: h135, sport: 7, dport: 7, flowsize: 5000, starttime: 0, finishtime: 26878, fct: 26878, recvtput: 25.6 Gbps, sendtput: 18.62 Gbps
+
+8, src: h2, dst: h135, sport: 9, dport: 9, flowsize: 5000, starttime: 0, finishtime: 34504, fct: 34504, recvtput: 21.49 Gbps, sendtput: 14.5 Gbps
+
+80, src: h77, dst: h138, sport: 81, dport: 81, flowsize: 5000, starttime: 1000, finishtime: 35528, fct: 34528, recvtput: 21.48 Gbps, sendtput: 14.49 Gbps
+
+1, src: h17, dst: h129, sport: 2, dport: 2, flowsize: 5000, starttime: 0, finishtime: 36144, fct: 36144, recvtput: 20.83 Gbps, sendtput: 13.85 Gbps
+
+0, src: h1, dst: h129, sport: 1, dport: 1, flowsize: 5000, starttime: 0, finishtime: 36653, fct: 36653, recvtput: 20.64 Gbps, sendtput: 13.65 Gbps
+
+9, src: h18, dst: h144, sport: 10, dport: 10, flowsize: 5000, starttime: 0, finishtime: 41179, fct: 41179, recvtput: 19.14 Gbps, sendtput: 12.15 Gbps
+
+11, src: h50, dst: h144, sport: 12, dport: 12, flowsize: 5000, starttime: 0, finishtime: 41232, fct: 41232, recvtput: 19.13 Gbps, sendtput: 12.13 Gbps
+
+2, src: h33, dst: h129, sport: 3, dport: 3, flowsize: 5000, starttime: 0, finishtime: 42204, fct: 42204, recvtput: 18.85 Gbps, sendtput: 11.85 Gbps
+
+80, src: h33, dst: h138, sport: 82, dport: 82, flowsize: 5000, starttime: 1000, finishtime: 42400, fct: 41400, recvtput: 19.08 Gbps, sendtput: 12.09 Gbps
+
+7, src: h113, dst: h135, sport: 8, dport: 8, flowsize: 5000, starttime: 0, finishtime: 43321, fct: 43321, recvtput: 18.54 Gbps, sendtput: 11.55 Gbps
+
+3, src: h49, dst: h130, sport: 4, dport: 4, flowsize: 5000, starttime: 0, finishtime: 45440, fct: 45440, recvtput: 18.0 Gbps, sendtput: 11.01 Gbps
+
+5, src: h81, dst: h130, sport: 6, dport: 6, flowsize: 5000, starttime: 0, finishtime: 47674, fct: 47674, recvtput: 17.49 Gbps, sendtput: 10.5 Gbps
+
+10, src: h34, dst: h144, sport: 11, dport: 11, flowsize: 5000, starttime: 0, finishtime: 48021, fct: 48021, recvtput: 17.41 Gbps, sendtput: 10.42 Gbps
+
+4, src: h65, dst: h130, sport: 5, dport: 5, flowsize: 5000, starttime: 0, finishtime: 50759, fct: 50759, recvtput: 16.85 Gbps, sendtput: 9.85 Gbps
+
