@@ -308,3 +308,15 @@ Total recv throughput (short, n=1299): 47415.56 Gbps
 Average recv throughput (short): 36.5 Gbps
 Total recv throughput (long, n=567): 3564.74 Gbps
 Average recv throughput (long): 5.0 Gbps
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.6.csv.processed
+workloads/websearch-trace-100G-load-0.9.csv.processed
+Network throughput (assuming 100G link and 1500B pkt): 1036.947 Gbps
+current timeslot: 87955 total packets sent: 944502 total packets received: 912047  total flows finished(long,short): 197  ,  423 
+workloads/websearch-trace-100G-load-0.3.csv.processed
+Network throughput (assuming 100G link and 1500B pkt): 1347.594 Gbps
+current timeslot: 134377 total packets sent: 1942799 total packets received: 1810856  total flows finished(long,short): 401  ,  856 
+workloads/websearch-trace-100G-load-0.6.csv.processed
+Network throughput (assuming 100G link and 1500B pkt): 1484.323 Gbps
+current timeslot: 173905 total packets sent: 2819883 total packets received: 2581312  total flows finished(long,short): 567  ,  1299 
+workloads/websearch-trace-100G-load-0.9.csv.processed

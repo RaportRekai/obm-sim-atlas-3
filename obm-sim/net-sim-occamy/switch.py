@@ -62,6 +62,9 @@ class Switch():
         # Occamy Expulsion tracking
         self.drop_timer = 0       
         self.expulsion_rr_idx = 0  # Global Round-Robin Index for Drop Selection
+        self.weights = [3,2,1]
+        self.current_prio_idx = {port+1: 0 for port in range(self.N)}
+        self.tokens = {port+1: self.weights[0] for port in range(self.N)}
 
     def runSwitch(self, currTimeslot):
         """Main loop of switch"""

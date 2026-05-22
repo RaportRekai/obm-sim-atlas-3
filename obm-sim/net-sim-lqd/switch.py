@@ -71,6 +71,9 @@ class Switch:
         # The Master Log for Training Data
         # Format: { "switch_uid": [queueLength, sharedOccupancy, avgQ, avgOcc, drop_status] }
         self.packet_history = {}
+        self.weights = [3,2,1]
+        self.current_prio_idx = {port+1: 0 for port in range(self.N)}
+        self.tokens = {port+1: self.weights[0] for port in range(self.N)}
 
     def runSwitch(self, currTimeslot):
         """Main loop of switch"""
@@ -79,30 +82,68 @@ class Switch:
 
         # 1. SENDING LOGIC (Round Robin-ish over ports and priorities)
         for port in self.links.keys():
-            sent_one = False
-            for pri in range(self.priority_classes):
-                if not self.queues[port][pri].empty():
-                    # Attempt to find the first valid packet in this priority queue
-                    for _ in range(0, self.queues[port][pri].qsize()):
-                        packet = self.queues[port][pri].get_nowait()
+             for _ in range(self.priority_classes):
+                prio = self.current_prio_idx[port]
+                
+                # 1. Refill Logic: If tokens are exhausted, move pointer and refill
+                if self.tokens[port] <= 0:
+                    self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                    prio = self.current_prio_idx[port]
+                    self.tokens[port] = self.weights[prio]
 
-                        # Check if packet was marked invalid (dropped by LQD previously)
-                        if getattr(packet, "invalid", 0) == 0:
-                            self.links[port].send(packet, self.addr, currTimeslot)
-                            self.port_qsize[port] -= 1
-                            self.sent += 1
-                            self.total_usage -= 1
-                            self.voq_port_qsize[port - 1][pri] -= 1
-                            sent_one = True
-                            assert self.port_qsize[port] >= 0
-                            break
-                        else:
-                            # Packet was virtually dropped by LQD, so we discard it here
-                            self.dropped.append((packet.dstAddr, packet.srcAddr, packet.srcPort, packet.dstPort, packet.seqNum))
+                # 2. Check Queue
+                if not self.queues[port][prio].empty():
+                    # Get the single packet at the head of the line
+                    packet = self.queues[port][prio].get_nowait()
+                    
+                    if packet.invalid == 0:
+                        # --- VALID PACKET ---
+                        
+                        self.links[port].send(packet, self.addr, currTimeslot)
+                        
+                        # Update Stats
+                        self.port_qsize[port] -= 1
+                        self.sent += 1
+                        self.total_usage -= 1 
+                        self.voq_port_qsize[port-1][prio] -= 1
+                        
+                        # WRR: Consume token & Success
+                        self.tokens[port] -= 1
+                        sent_in_this_slot = True
+                        assert(self.port_qsize[port] >= 0)
 
-                    if sent_one:
-                        break
+                        # Post-send: If tokens done or queue empty, prep next prio for NEXT slot
+                        if self.tokens[port] <= 0 or self.queues[port][prio].empty():
+                            self.tokens[port] = 0
+                            self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                        
+                        break # Packet sent! Stop processing this port.
 
+                    else:
+                        # --- INVALID PACKET ---
+                        # Log the drop
+                        self.dropped.append((packet.dstAddr, packet.srcAddr, packet.srcPort, packet.dstPort, packet.seqNum))
+                        
+                        # WRR: Consume token (penalty for processing invalid packet)
+                        self.tokens[port] -= 1
+                        
+                        # Check for exhaustion
+                        if self.tokens[port] <= 0 or self.queues[port][prio].empty():
+                            self.tokens[port] = 0
+                        
+                        # Move Pointer Immediately
+                        self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                        
+                        # Continue the loop to check the NEXT priority immediately
+                        continue 
+
+                else:
+                    # 3. EMPTY QUEUE
+                    # "Waste" tokens and move to next priority to keep searching
+                    self.tokens[port] = 0
+                    self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                    continue
+                
         # 2. LQD PREPARATION
         self.k = 0
         self.buffer = [[-1, -1] for _ in range(self.N)]

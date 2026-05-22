@@ -88,7 +88,9 @@ class Switch():
         self.sent = 0
         self.t = 0
         self.track = 0
-
+        self.weights = [3,2,1]
+        self.current_prio_idx = {port+1: 0 for port in range(self.N)}
+        self.tokens = {port+1: self.weights[0] for port in range(self.N)}
 
         # Initialize
         self.model = None
@@ -161,30 +163,53 @@ class Switch():
         
         # --- SENDING PHASE (DEPARTURES) ---
         for port in self.links.keys():
-            flag_1 = 0
-            for i in range(self.priority_classes):
-                if not self.queues[port][i].empty():
-                    for j in range(0, self.queues[port][i].qsize()):
-                        packet = self.queues[port][i].get_nowait()
+            packet_sent_this_slot = False
+            
+            # Check up to 'priority_classes' to find work
+            for _ in range(self.priority_classes):
+                prio = self.current_prio_idx[port]
+                
+                # 1. If we have NO tokens left for this prio, move to next and refill THAT one
+                if self.tokens[port] <= 0:
+                    self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                    prio = self.current_prio_idx[port] 
+                    self.tokens[port] = self.weights[prio]
+                    # After refilling, we continue the loop to check this new prio
+                    
+                # 2. Check if the current priority has packets
+                if not self.queues[port][prio].empty():
+                    # Standard extraction logic
+                    found_valid = False
+                    for j in range(self.queues[port][prio].qsize()):
+                        packet = self.queues[port][prio].get_nowait()
                         if packet.invalid == 0:
+                        
                             self.links[port].send(packet, self.addr, currTimeslot)
                             
+                            # Stats updates
                             self.port_qsize[port] -= 1
                             self.sent += 1
                             self.total_usage -= 1 
-                            self.voq_port_qsize[port-1][i] -= 1
-                            
-                            # [CREDENCE HOOK]
-                            # A packet physically departed, so we update Virtual LQD state
+                            self.voq_port_qsize[port-1][prio] -= 1
                             self._update_virtual_lqd(port, 'departure')
                             
-                            flag_1 = 1
-                            assert(self.port_qsize[port] >= 0)
+                            self.tokens[port] -= 1
+                            packet_sent_this_slot = True
+                            found_valid = True
                             break
-                    if flag_1:
-                        break
+                    
+                    if packet_sent_this_slot:
+                        break # Port is done for this clock cycle
+                
                 else:
-                    continue
+                    # 3. WORK-CONSERVING SKIP: Queue is empty. 
+                    # We "waste" the remaining tokens for this prio to move to the next
+                    # so that we don't get stuck waiting for packets that aren't there.
+                    self.tokens[port] = 0 
+                    self.current_prio_idx[port] = (prio + 1) % self.priority_classes
+                    # Refill for the next class immediately so we can check it in the next iteration of '_'
+                    self.tokens[port] = self.weights[self.current_prio_idx[port]]
+
 
         # --- RECEIVING PHASE (ARRIVALS) ---
         for port in self.links.keys():

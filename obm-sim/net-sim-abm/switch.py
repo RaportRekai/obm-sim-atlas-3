@@ -61,39 +61,65 @@ class Switch():
         self.bwu = [[0 for i in range(self.priority_classes)] for _ in range(self.ports)]
         self.nqa = [[1 for i in range(self.priority_classes)] for _ in range(self.ports)]
         self.K = 30
+        self.weights = [3,2,1] 
+        self.current_prio = {port+1: 0 for port in range(self.N)}
+        self.tokens = {port+1: self.weights[0] for port in range(self.N)}
+
     def runSwitch(self, currTimeslot):
         """Main loop of switch"""
         self.t+=1
-        
-        for port in self.links.keys():  # in each timeslot, send a packet
-                                        # at the head of a VOQ at each port.
-                                        # VOQs at each port are scheduled in
-                                        # round robin manner
-            flag_1 = 0
-            for i in range(self.priority_classes):
-                if not self.queues[port][i].empty():
-                    for j in range(0,self.queues[port][i].qsize()):
-                        packet = self.queues[port][i].get_nowait()
+        for port in self.links.keys():
+            sent_in_this_slot = False
+            
+            # Check up to 'priority_classes' to ensure work-conservation
+            for _ in range(self.priority_classes):
+                prio = self.current_prio[port]
+                
+                # 1. Refill check: If tokens are 0, move to next and refill
+                if self.tokens[port] <= 0:
+                    self.current_prio[port] = (prio + 1) % self.priority_classes
+                    prio = self.current_prio[port]
+                    self.tokens[port] = self.weights[prio]
+                
+                # 2. Check for work
+                if not self.queues[port][prio].empty():
+                    # Standard extraction logic to find a valid packet
+                    found_valid = False
+                    for j in range(self.queues[port][prio].qsize()):
+                        packet = self.queues[port][prio].get_nowait()
                         if packet.invalid == 0:
+                            
                             self.bwu[port-1][packet.priority-1] += 1
                             self.links[port].send(packet, self.addr, currTimeslot)
-                            # print(f"sending packet from {i} when other prioritites have length = {self.voq_port_qsize[port-1]}")
-                            # if i == 0:
-                            #     breakpoint()
+                            
+                            # Stats
                             self.port_qsize[port] -= 1
-                            self.sent+=1
-                            self.total_usage-=1 
-                            self.voq_port_qsize[port-1][i]-=1
-                            flag_1 = 1
-                            assert(self.port_qsize[port] >= 0)
+                            self.sent += 1
+                            self.total_usage -= 1 
+                            self.voq_port_qsize[port-1][prio] -= 1
+                            
+                            # Consume token
+                            self.tokens[port] -= 1
+                            sent_in_this_slot = True
+                            found_valid = True
                             break
-
-                    if flag_1:
-                        break
-
+                    
+                    # 3. Post-send check: If queue is now empty or tokens hit 0, prep next prio
+                    if self.tokens[port] <= 0 or self.queues[port][prio].empty():
+                        # We set to 0 so the next iteration (or next timeslot) triggers a move/refill
+                        self.tokens[port] = 0 
+                        # Optional: You can advance the pointer here or let the next iteration handle it
+                    
+                    if sent_in_this_slot:
+                        break # Finished for this egress port in this timeslot
+                
                 else:
-                    continue
+                    # 4. Work-conserving skip: Queue is empty
+                    # Clear tokens for this class and loop back to check the next priority
+                    self.tokens[port] = 0
+                    # By looping, the next '_' iteration hits the refill check at the top
 
+        
 
         for port in self.links.keys():  # in each timeslot, receive a
                                         # pa cket (if any) on each input
