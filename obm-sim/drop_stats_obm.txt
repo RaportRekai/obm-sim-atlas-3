@@ -105,3 +105,5 @@ flowtrace drops: workloads/incast-trace-100G-degree-0.2.csv.processed
 flowtrace drops: workloads/incast-trace-100G-degree-0.4.csv.processed 
 flowtrace drops: workloads/incast-trace-100G-degree-0.6.csv.processed 
 flowtrace drops: workloads/incast-trace-100G-degree-0.8.csv.processed 
+flowtrace drops: workloads/incast-trace-100G-degree-0.2.csv.processed 
+flowtrace drops: workloads/incast-trace-100G-degree-0.2.csv.processed 
