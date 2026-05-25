@@ -268,18 +268,16 @@ class Switch():
     def allct(self,mem):
         space = sum(mem)
         trk = 0
-        for prio in range(self.priority_classes):
-            for ind,i in enumerate(self.buffer):
-                if i[1] != -1 and i[0].priority == prio+1:
-                        self.queues[i[1]][i[0].priority-1].put(i[0])
-                        trk +=1
-                        self.total_usage +=1
-                        self.port_qsize[i[1]] += 1
-                        self.setECNFlag(i[0], i[1])
-                        self.voq_port_qsize[i[1]-1][i[0].priority-1]+=1
-                        self.buffer[ind] = [-1,-1]
-                if trk == space:
-                    break
+        #for prio in range(self.priority_classes):
+        for ind,i in enumerate(self.buffer):
+            if i[1] != -1:
+                    self.queues[i[1]][i[0].priority-1].put(i[0])
+                    trk +=1
+                    self.total_usage +=1
+                    self.port_qsize[i[1]] += 1
+                    self.setECNFlag(i[0], i[1])
+                    self.voq_port_qsize[i[1]-1][i[0].priority-1]+=1
+                    self.buffer[ind] = [-1,-1]
             if trk == space:
                 break
             # if trk == space:
