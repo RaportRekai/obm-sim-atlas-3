@@ -8,9 +8,10 @@ algo = sys.argv[1]
 wkld = sys.argv[2]
 #path = sys.argv[3]
 #folder = sys.argv[3]
-#path = f'net-sim-{algo}/prev_logs/{folder}/recvd-flows-{wkld}.txt'
+folder = "run_12"
+path = f'net-sim-{algo}/prev_logs/all_logs/{folder}/recvd-flows-{wkld}.txt'
 
-path = f'net-sim-{algo}/logs/recvd-flows-{wkld}.txt'
+#path = f'net-sim-{algo}/logs/recvd-flows-{wkld}.txt'
 # Helpers
 def next_token_value(tokens, key_with_colon):
     # find "flowsize:", "fct:", "recvtput:" and return the very next token (comma stripped)

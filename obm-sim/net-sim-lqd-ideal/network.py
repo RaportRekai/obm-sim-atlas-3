@@ -40,7 +40,7 @@ class Network:
         """Parse switches from switchParams dict"""
         switches = {}
         for addr in switchParams:
-            switches[addr] = Switch(addr, self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack)
+            switches[addr] = Switch(addr, self.num_tor_ports, self.num_agg_ports, self.hosts_per_rack, sys.argv[3])
         return switches
 
 

@@ -56,27 +56,27 @@ rm -rf "$LOG_DIR"/*
 
 ## Websearch Workloads
 
-# cd net-sim-obm
-# python3 network.py 144-host-2-tier-fattree.json "workloads/websearch-trace-100G-load-0.3.csv.processed" 0.3 100000
-# mkdir -p "$NEW_FOLDER"
-# cd ..
-# echo workloads/websearch-trace-100G-load-0.3.csv.processed >> stats_obm.txt
-# python3 stats.py obm 0.3
-# python3 stats.py obm 0.3 >> stats_obm.txt
-# mv "$LOG_DIR/recvd-flows-0.3.txt" "$NEW_FOLDER/"
-# cp "$SWITCH_FILE" "$NEW_FOLDER/"
+cd net-sim-obm
+python3 network.py 144-host-2-tier-fattree.json "workloads/websearch-trace-100G-load-0.3.csv.processed" 0.3 100000
+mkdir -p "$NEW_FOLDER"
+cd ..
+echo workloads/websearch-trace-100G-load-0.3.csv.processed >> stats_obm.txt
+python3 stats.py obm 0.3
+python3 stats.py obm 0.3 >> stats_obm.txt
+mv "$LOG_DIR/recvd-flows-0.3.txt" "$NEW_FOLDER/"
+cp "$SWITCH_FILE" "$NEW_FOLDER/"
 
 
 
-# cd net-sim-obm
-# python3 network.py 144-host-2-tier-fattree.json "workloads/websearch-trace-100G-load-0.6.csv.processed" 0.6 100000
-# mkdir -p "$NEW_FOLDER"
-# cd ..
-# echo workloads/websearch-trace-100G-load-0.6.csv.processed >> stats_obm.txt
-# python3 stats.py obm 0.6
-# python3 stats.py obm 0.6 >> stats_obm.txt
-# mv "$LOG_DIR/recvd-flows-0.6.txt" "$NEW_FOLDER/"
-# cp "$SWITCH_FILE" "$NEW_FOLDER/"
+cd net-sim-obm
+python3 network.py 144-host-2-tier-fattree.json "workloads/websearch-trace-100G-load-0.6.csv.processed" 0.6 100000
+mkdir -p "$NEW_FOLDER"
+cd ..
+echo workloads/websearch-trace-100G-load-0.6.csv.processed >> stats_obm.txt
+python3 stats.py obm 0.6
+python3 stats.py obm 0.6 >> stats_obm.txt
+mv "$LOG_DIR/recvd-flows-0.6.txt" "$NEW_FOLDER/"
+cp "$SWITCH_FILE" "$NEW_FOLDER/"
 
 
 
