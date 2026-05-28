@@ -78,6 +78,7 @@ class Switch():
                         packet = self.queues[port][i].get_nowait()
                         if packet.invalid == 0:
                             #packet.hops +=1
+                            self.bwu[port-1][packet.priority-1] += 1
                             if packet.prvt == 1:
                                 if self.per_port_buffer[port-1][i]==1:
                                     self.per_port_buffer[port-1][i] = 0
