@@ -114,6 +114,7 @@ def print_tput_stats(name, arr):
     #     avg = avg+1
     sys.stdout.write(f"Total recv throughput ({name}, n={n}): {round(total,3)} Gbps\n")
     sys.stdout.write(f"Average recv throughput ({name}): {quantize_down(round(avg,rnd))} Gbps\n")
+    sys.stdout.write(f"Average recv throughput ({name}): {(round(avg,rnd))} Gbps\n")
     
 
 print_tput_stats('short', tput_short)
