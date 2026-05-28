@@ -15,6 +15,7 @@ class Packet:
         self.ackFlag = ackFlag  # set to 0 or 1 (1 = ACK packet)
         self.ecnFlag = ecnFlag  # set to 0 or 1
         self.priority = 0
+        self.prvt = 0
 
         """Simulator fileds. DO NOT TOUCH"""
         self.timeslotToDeq = None

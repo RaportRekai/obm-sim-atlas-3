@@ -296,3 +296,6 @@ Total recv throughput (short, n=1299): 43224.04 Gbps
 Average recv throughput (short): 33.0 Gbps
 Total recv throughput (long, n=567): 3218.33 Gbps
 Average recv throughput (long): 5.5 Gbps
+workloads/websearch-trace-100G-load-0.3.csv.processed
+workloads/websearch-trace-100G-load-0.6.csv.processed
+workloads/websearch-trace-100G-load-0.9.csv.processed
