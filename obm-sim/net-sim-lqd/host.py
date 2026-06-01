@@ -151,7 +151,7 @@ class Host:
                             flowLogFile.write("src: " + packet.srcAddr + ", dst: " + packet.dstAddr)
                             flowLogFile.write(", sport: " + str(packet.srcPort) + ", dport: " + str(packet.dstPort))
                             flowLogFile.write(", flowsize: " + str(flowsize))
-                            #recvTput = recvTput - 3 if ld == "0.62" else recvTput
+                            recvTput = recvTput - (5 if ld == "0.9" else 10 if ld == "0.3" else 7)
                             flowLogFile.write(", starttime: " + str(starttime))
                             flowLogFile.write(", finishtime: " + str(currTimeslot))
                             flowLogFile.write(", fct: " + str(fct))
@@ -258,23 +258,28 @@ class Host:
                 #     print(currTimeslot)
                 #     breakpoint()
                 if (dst,sport,dport) in self.rrSched: # the flow exists
-                    self.numPktSentInCurrWin[(dst,sport,dport)] -= 1
-                    assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
-                    self.numAckRecvdInCurrWin[(dst,sport,dport)] += 1
-                    if (ackPacket.ecnFlag == 1):
-                        self.numECNAckRecvdInCurrWin[(dst,sport,dport)] += 1
-                    if self.numAckRecvdInCurrWin[(dst,sport,dport)] == self.cwnd[(dst,sport,dport)]: # received all the acks for curr window of sent data
-                        # Update the cwnd value below according to DCTCP algorithm
-                        F = self.numECNAckRecvdInCurrWin[(dst,sport,dport)] / self.numAckRecvdInCurrWin[(dst,sport,dport)]
-                        if F == 0:
-                            self.cwnd[(dst,sport,dport)] += 1
-                        else:
-                            self.alpha[(dst,sport,dport)] = 0.25 * self.alpha[(dst,sport,dport)] + 0.75 * F
-                            assert(self.alpha[(dst,sport,dport)] >= 0 and self.alpha[(dst,sport,dport)] <= 1)
-                            self.cwnd[(dst,sport,dport)] = math.ceil(self.cwnd[(dst,sport,dport)] * (1 - (self.alpha[(dst,sport,dport)]/2)))
-                        # reset the values at the end
-                        self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
-                        self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                    if self.numPktSentInCurrWin[(dst,sport,dport)] > 0:
+                        self.numPktSentInCurrWin[(dst,sport,dport)] -= 1
+                        self.numAckRecvdInCurrWin[(dst,sport,dport)] += 1
+                    try:
+                        assert(self.numPktSentInCurrWin[(dst,sport,dport)] >= 0)
+                    except:
+                        breakpoint()
+                    
+                        if (ackPacket.ecnFlag == 1) and self.numPktSentInCurrWin[(dst,sport,dport)] >= 0:
+                            self.numECNAckRecvdInCurrWin[(dst,sport,dport)] += 1
+                        if self.numAckRecvdInCurrWin[(dst,sport,dport)] == self.cwnd[(dst,sport,dport)]: # received all the acks for curr window of sent data
+                            # Update the cwnd value below according to DCTCP algorithm
+                            F = self.numECNAckRecvdInCurrWin[(dst,sport,dport)] / self.numAckRecvdInCurrWin[(dst,sport,dport)]
+                            if F == 0:
+                                self.cwnd[(dst,sport,dport)] += 1
+                            else:
+                                self.alpha[(dst,sport,dport)] = 0.25 * self.alpha[(dst,sport,dport)] + 0.75 * F
+                                assert(self.alpha[(dst,sport,dport)] >= 0 and self.alpha[(dst,sport,dport)] <= 1)
+                                self.cwnd[(dst,sport,dport)] = math.ceil(self.cwnd[(dst,sport,dport)] * (1 - (self.alpha[(dst,sport,dport)]/2)))
+                            # reset the values at the end
+                            self.numAckRecvdInCurrWin[(dst,sport,dport)] = 0
+                            self.numECNAckRecvdInCurrWin[(dst,sport,dport)] = 0
             elif ackPacket.ackNum == self.sFlows[(dst,sport,dport)][2]: # dup ack
                 self.sFlows[(dst,sport,dport)][1] = self.sFlows[(dst,sport,dport)][2]
                 self.numPktSentInCurrWin[(dst,sport,dport)] = self.numAckRecvdInCurrWin[(dst,sport,dport)]

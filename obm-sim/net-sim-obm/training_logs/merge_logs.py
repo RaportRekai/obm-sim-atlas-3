@@ -1,4 +1,5 @@
-
+# usage python merge_logs.py . _a merged_agg.csv 0.9
+# usage python merge_logs.py . _t merged_agg.csv 0.9
 #!/usr/bin/env python3
 import os
 import re
@@ -13,7 +14,9 @@ def main():
     dir_list = sys.argv[4:]
 
     pattern = re.compile(regex)
-
+    os.remove(output_csv)
+    #breakpoint()
+    print("removed csv files")
     selected_files = []
     for d in dir_list:
         subdir = os.path.join(parent, d)
@@ -24,6 +27,7 @@ def main():
             if pattern.search(name):  # use search so pattern like "_t..." matches anywhere in filename
                 selected_files.append(os.path.join(subdir, name))
     dfs = []
+    #os.remove(output_csv)
     for path in selected_files:
         dfs.append(pd.read_csv(path, delim_whitespace=True))
 

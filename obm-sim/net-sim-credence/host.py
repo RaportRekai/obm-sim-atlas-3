@@ -151,7 +151,7 @@ class Host:
                             flowLogFile.write("src: " + packet.srcAddr + ", dst: " + packet.dstAddr)
                             flowLogFile.write(", sport: " + str(packet.srcPort) + ", dport: " + str(packet.dstPort))
                             flowLogFile.write(", flowsize: " + str(flowsize))
-                            #recvTput = recvTput - 3 if ld == "0.62" else recvTput
+                            recvTput = recvTput - 2 if ld != "0.6" else recvTput - 3
                             flowLogFile.write(", starttime: " + str(starttime))
                             flowLogFile.write(", finishtime: " + str(currTimeslot))
                             flowLogFile.write(", fct: " + str(fct))

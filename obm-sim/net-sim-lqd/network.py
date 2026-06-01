@@ -171,6 +171,9 @@ class Network:
                 sys.stdout.write("Ending simulation as all flows have finished.\n")
                 nwTput = (totalPktRecvd[0] * 1500 * 8.0) / (currTimeslot * 120.0)  # Assuming 100G link and 1500B packets
                 sys.stdout.write("Network throughput (assuming 100G link and 1500B pkt): " + str(round(nwTput,3)) + "Gbps\n")
+                for switch in self.switches:
+                    file = os.path.join(f"../net-sim-obm/training_logs/{sys.argv[3]}",f"training_data_{self.switches[switch].id}.csv")
+                    self.switches[switch].export_training_data(filename=file)
                 with open("reordering_dt_per_flow.txt", "a", encoding="utf-8") as f:
                     for h, events_by_flow in self.reordering_pairs.items():
                         for (dst, src, dport, sport), pairs in events_by_flow.items():
@@ -188,6 +191,10 @@ class Network:
             sys.stdout.write("Ending simulation as end timeslot reached.\n")
             nwTput = (totalPktRecvd[0] * 1500 * 8.0) / (currTimeslot * 120.0)  # Assuming 100G link and 1500B packets
             sys.stdout.write("Network throughput (assuming 100G link and 1500B pkt): " + str(round(nwTput,3)) + "Gbps\n")
+            for switch in self.switches:
+                file = os.path.join(f"../net-sim-obm/training_logs/{sys.argv[3]}",f"training_data_{self.switches[switch].addr}.csv")
+                self.switches[switch].export_training_data(filename=file)
+
             with open("reordering_dt_per_flow.txt", "a", encoding="utf-8") as f:
                     for h, events_by_flow in self.reordering_pairs.items():
                         for (dst, src, dport, sport), pairs in events_by_flow.items():

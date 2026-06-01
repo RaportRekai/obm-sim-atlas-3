@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+# usage - python trainLqd.py <csvfile> <dumpfile> <maxDepth> <numTrees>
+#python3 merged_agg model_ports9 4 1
+#python3 merged_agg model_ports9 4 1
+#!/usr/bin/env python3 merged_agg model_ports9 4 1
 # -*- coding: utf-8 -*-
 """
 Created on Sat Sep  9 15:50:18 2023
@@ -85,7 +88,7 @@ for numTrees in trees:
         myScore=1
     print(accuracy,precision,recall,f1score,numTrees,maxDepth,myScore)
 
-    # joblib.dump(rf,dumpfile+'-'+str(numTrees)+'-'+switchId+'.joblib')
+    # joblib.dump(rf,dumpfile+'_'+str(numTrees)+'_'+switchId+'.joblib')
 
 
 

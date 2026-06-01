@@ -3,11 +3,13 @@ import os
 import numpy as np
 import plotly.graph_objects as go
 
+# usage - 
+
 # ==========================================
 # CONFIGURATION
 # ==========================================
 ALGOS = ['credence', 'dt', 'abm', 'obm', 'occamy']
-RUN = [1,1,1,1,3]
+RUN = [1,9,6,10,7]
 XLIM_START = 80
 XLIM_END = 100
 STEP = 0.2
